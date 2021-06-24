@@ -1,0 +1,125 @@
+
+https://leetcode.com/problems/3sum-closest/solution/
+https://www.geeksforgeeks.org/find-a-triplet-in-an-array-whose-sum-is-closest-to-a-given-number/
+
+
+
+
+Efficient approach: By Sorting the array the efficiency of the algorithm can be improved. This efficient approach uses the two-pointer technique. Traverse the array and fix the first element of the triplet. Now use the Two Pointers algorithm to find the closest number to x – array[i]. Update the closest sum. Two-pointers algorithm take linear time so it is better than a nested loop.
+
+Algorithm: 
+
+    Sort the given array.
+    Loop over the array and fix the first element of the possible triplet, arr[i].
+    Then fix two pointers, one at I + 1 and the other at n – 1. And look at the sum, 
+        If the sum is smaller than the sum we need to get to, we increase the first pointer.
+        Else, If the sum is bigger, Decrease the end pointer to reduce the sum.
+        Update the closest sum found so far.
+
+Implementation:
+
+// Java implementation of the above approach
+import static java.lang.Math.abs;
+import java.util.*;
+ 
+class GFG
+{
+ 
+// Function to return the sum of a
+// triplet which is closest to x
+static int solution(Vector<Integer> arr, int x)
+{
+ 
+    // Sort the array
+    Collections.sort(arr);
+ 
+    // To store the closets sum
+    int closestSum = Integer.MAX_VALUE;
+ 
+    // Fix the smallest number among
+    // the three integers
+    for (int i = 0; i < arr.size() - 2; i++)
+    {
+ 
+        // Two pointers initially pointing at
+        // the last and the element
+        // next to the fixed element
+        int ptr1 = i + 1, ptr2 = arr.size() - 1;
+ 
+        // While there could be more pairs to check
+        while (ptr1 < ptr2)
+        {
+ 
+            // Calculate the sum of the current triplet
+            int sum = arr.get(i) + arr.get(ptr1) + arr.get(ptr2);
+ 
+            // If the sum is more closer than
+            // the current closest sum
+            if (abs(x - sum) < abs(x - closestSum))
+            {
+                closestSum = sum;
+            }
+ 
+            // If sum is greater then x then decrement
+            // the second pointer to get a smaller sum
+            if (sum > x)
+            {
+                ptr2--;
+            }
+ 
+            // Else increment the first pointer
+            // to get a larger sum
+            else
+            {
+                ptr1++;
+            }
+        }
+    }
+ 
+    // Return the closest sum found
+    return closestSum;
+}
+ 
+// Driver code
+public static void main(String[] args)
+{
+    Vector arr = new Vector(Arrays.asList( -1, 2, 1, -4 ));
+    int x = 1;
+    System.out.println(solution(arr, x));
+}
+}
+ 
+/* This code is contributed by PrinciRaj1992 */
+Output: 
+
+2
+
+Complexity Analysis:
+
+    Time complexity: O(N2). 
+    There are only two nested loops traversing the array, so time complexity is O(n^2). Two pointer algorithm take O(n) time and the first element can be fixed using another nested traversal.
+    Space Complexity: O(1). 
+    As no extra space is required.
+    
+    
+    leet
+    
+    public int threeSumClosest(int[] nums, int target) {
+    int diff = Integer.MAX_VALUE, sz = nums.length;
+    Arrays.sort(nums);
+    for (int i = 0; i < sz && diff != 0; ++i) {
+        int lo = i + 1, hi = sz - 1;
+        while (lo < hi) {
+            int sum = nums[i] + nums[lo] + nums[hi];
+            if (Math.abs(target - sum) < Math.abs(diff))
+                diff = target - sum;
+            if (sum < target)
+                ++lo;
+            else
+                --hi;
+        }
+    }
+    return target - diff;
+}
+    
+    
